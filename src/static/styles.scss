@@ -1,0 +1,310 @@
+@import "mixins/angled-edges";
+
+$navbar-height: 48px;
+$primary-color: #b12626;
+$primary-color-muted: #ffd9d9;
+$secondary-color: #9b9b9b;
+$text-color: #574e4e;
+$title-font: 'Cabin', sans-serif;
+$text-font: 'Open Sans', sans-serif;
+
+:target:before {
+    content:"";
+    display:block;
+    height:60px; /* fixed header height*/
+    margin:-60px 0 0; /* negative fixed header height */
+  }  
+
+body {
+    font-family: $text-font;
+    font-size: 1rem;
+    color: $text-color;
+}
+  
+h1 {
+    font-family: $title-font;
+    color: $primary-color;
+}
+
+h2 {
+    font-family: $title-font;
+    color: $primary-color;
+}
+
+a {
+    color: $primary-color;
+
+    &:hover {
+        color: $primary-color;
+    }
+}
+
+.dropdown-menu {
+    border-radius: 0;
+
+    .dropdown-item {
+        display: flex;
+        color: $primary-color;
+        align-items: center;
+        a {
+            font-weight: normal;
+        }
+
+        &:active {
+            background-color: $primary-color-muted;
+        }
+
+        img {
+            height: 20px;
+            margin-right: 0.5rem;
+        }
+    }
+}
+
+.divider {
+    width: 40%;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $secondary-color;
+}
+
+.feather {
+width: 16px;
+height: 16px;
+vertical-align: text-bottom;
+}
+
+/*
+* Sidebar
+*/
+
+.sidebar {
+position: fixed;
+top: 0;
+bottom: 0;
+left: 0;
+z-index: 100; /* Behind the navbar */
+padding: $navbar-height 0 0; /* Height of navbar */
+box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+.sidebar-sticky {
+position: relative;
+top: 0;
+height: calc(100vh - $navbar-height);
+padding-top: .5rem;
+overflow-x: hidden;
+overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+@supports ((position: -webkit-sticky) or (position: sticky)) {
+.sidebar-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+}
+}
+
+.sidebar .nav-link {
+font-weight: 500;
+color: #333;
+}
+
+.sidebar .nav-link .feather {
+margin-right: 4px;
+color: #999;
+}
+
+.sidebar .nav-link.active {
+color: #007bff;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+color: inherit;
+}
+
+.sidebar-heading {
+font-size: .75rem;
+text-transform: uppercase;
+}
+
+/*
+* Content
+*/
+
+[role="main"] {
+    padding-top: $navbar-height; /* Space for fixed navbar */
+    margin-top: 10px;
+}
+
+.homepage {
+
+    .hero {
+        height: 500px;
+        max-height: 50vh;
+        background-size: cover;
+        background-position: center;
+
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;      
+    }
+
+    .directions {
+        .d-icon {
+            height: 60px;
+        }
+
+        h3 {
+            font-weight: 600;
+            text-align: center;
+        }
+    }
+
+    .title {
+        font-size: 1.4em;
+
+        h1 {
+            font-family: $title-font;
+            font-weight: 700;
+            font-size: 2.5em;
+        }
+    
+        h2 {
+            font-family: $title-font;
+            font-weight: 700;
+            font-size: 1.3em;
+            margin-top: 0;
+            margin-bottom: 0;
+            line-height: 1
+        }
+        
+        h5 {
+            font-style: italic;
+            color: $secondary-color;
+            font-size: 0.8em;
+        }
+    }
+}
+
+.sotong-guide {
+    overflow-wrap: break-word;
+
+    .sotong {
+        height: 50px;
+    }
+
+    h1 {
+        font-weight: 700;
+        font-size: 3rem;
+    }
+
+    .toc {
+        font-size: 0.85rem;
+
+        & > ul {
+            position: sticky;
+            top: 4rem;
+        }
+
+        a {
+            display: block;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        ul {
+            font-weight: 600;
+            list-style-type: none;
+            padding-left: 0;
+            ul {
+                padding-left: 1rem;
+                font-weight: normal;
+            }
+        }    
+    }
+}
+
+/*
+* Footer
+*/
+
+.footer {
+    opacity: 0.7;
+    min-height: 90px;
+    font-size: 0.8rem;
+
+    a {
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+}
+
+/*
+* Navbar
+*/
+
+.navbar {
+    color: $primary-color;
+    background: rgb(255,255,255);
+
+    a {
+        color: $primary-color;
+        font-weight: 600;
+    }
+
+    .profile-img {
+        height: 42px;
+    }
+}
+
+.navbar-brand {
+    padding-top: .4rem;
+    padding-bottom: .6rem;
+    // background-color: rgba(0, 0, 0, .25);
+    // box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+    font-family: 'Cabin', sans-serif;
+    line-height: 1.2rem;
+
+    .bear {
+        padding-top: 3px; // OCD
+        width: 35px;
+    }
+
+    .ucla {
+        font-weight: 700;
+        font-size: 1rem;
+    }
+
+    .ssa {
+        font-size: 1.7rem;
+        font-weight: 700;
+    }
+
+}
+
+.navbar .form-control {
+    padding: .75rem 1rem;
+    border-width: 0;
+    border-radius: 0;
+}
+
+.form-control-dark {
+    color: #fff;
+    background-color: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, .1);
+}
+
+.form-control-dark:focus {
+border-color: transparent;
+box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+/*
+* Utilities
+*/
+
+.border-top { border-top: 1px solid #e5e5e5; }
+.border-bottom { border-bottom: 1px solid #e5e5e5; }
