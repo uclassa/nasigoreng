@@ -16,7 +16,7 @@ export const getSotongGuide = ((req: Request, res: Response) => {
     const tocRenderer = new Remarkable().use(toc.plugin());
     const mdRenderer = new Remarkable().use(function(remarkable) {
         remarkable.renderer.rules.heading_open = function(tokens, idx) {
-          return "<h" + tokens[idx].hLevel + " id=" + toc.slugify(tokens[idx + 1].content) + ">";
+            return "<h" + tokens[idx].hLevel + " id=" + toc.slugify((<any>tokens[idx + 1]).content) + ">";
         };
       });
     request.get(Config.SOTONG_GUIDE_URL)
@@ -27,7 +27,7 @@ export const getSotongGuide = ((req: Request, res: Response) => {
             md: md,
             toc: mdRenderer.render(toc(md).content),
             html: mdRenderer.render(md),
-            editLink: req.user ? (req.user.approved ? Config.SOTONG_GUIDE_URL : undefined ) : undefined
+            editLink: req.user ? Config.SOTONG_GUIDE_URL : undefined // TODO: make this more secure... somehow
         } as IGuideResponse);
     });
 });

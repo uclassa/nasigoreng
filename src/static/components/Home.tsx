@@ -51,9 +51,9 @@ export const HomePage = () => {
             <div className="divider" />
             <div className="row mt-4 directions">
                 <IntroBlock heading="New to UCLA" icon={squidImg}>
-                    Get oriented with our <a href="#">Sotong Guide</a> for incoming freshmen, <a href="#">sign up</a> for
+                    Get oriented with our <Link to="/guide">Sotong Guide</Link> for incoming freshmen, <a href="/auth/facebook">sign up</a> for
                     an account to get access to our resources, and be sure to
-                    join our <a href="#">SSA Facebook group</a>!
+                    join our <a target="_blank" href="https://www.facebook.com/groups/122880215014668/">SSA Facebook group</a>!
                 </IntroBlock>
                 <IntroBlock heading="Members/Alumni" icon={oldManImg}>
                     <em>We're still working on this! Let us know if you want any features!</em>

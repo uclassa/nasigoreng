@@ -14,7 +14,7 @@ export const Navbar: StatelessComponent<IRequiresAppState> = ({appState: {userDa
     return (
         <nav className="navbar fixed-top flex-md-nowrap p-0 navbar-expand">
             <div className="container">
-                <a className="navbar-brand pl-md-0 pl-1" href="/">
+                <Link className="navbar-brand pl-md-0 pl-1" to="/">
                     <div className="row no-gutters">
                         <div className="col mr-2 d-flex align-items-center">
                             <img src={bear} className="bear"/>
@@ -24,7 +24,7 @@ export const Navbar: StatelessComponent<IRequiresAppState> = ({appState: {userDa
                             <span className="ssa">SSA</span>
                         </div>
                     </div>
-                </a>
+                </Link>
                 <Collapse isOpen={true} navbar>
 
                     <Nav className="ml-auto pr-1 pr-md-0" navbar>

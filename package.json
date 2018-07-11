@@ -10,11 +10,12 @@
   "license": "MIT",
   "scripts": {
     "start": "npm run serve",
-    "build": "npm run build-sass && npm run build-ts && npm run tslint",
+    "build": "npm run build-ts && npm run build-parcel",
     "clean": "rm -rf dist/",
     "serve": "node dist/server.js",
     "watch-node": "nodemon dist/server.js",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node,Frontend\" -c \"cyan.bold,green.bold,red.bold\" \"npm run watch-ts\" \"npm run watch-node\" \"npm run watch-parcel\"",
+    "build-parcel": "parcel build src/static/index.html -d dist/static",
     "watch-parcel": "parcel src/static/index.html -d dist/static",
     "test": "jest --forceExit --coverage --verbose",
     "watch-test": "npm run test -- --watchAll",
@@ -26,7 +27,6 @@
     "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node,Frontend\" -c \"cyan.bold,green.bold,red.bold\"  \"npm run watch-ts\" \"npm run serve-debug\" \"npm run watch-parcel\""
   },
   "dependencies": {
-    "@types/remarkable": "^1.7.0",
     "axios": "^0.18.0",
     "bootstrap": "^4.1.1",
     "cheerio": "^1.0.0-rc.2",
@@ -43,7 +43,9 @@
     "reactstrap": "^6.2.0",
     "remarkable": "^1.7.1",
     "request": "^2.87.0",
-    "request-promise-native": "^1.0.5"
+    "request-promise-native": "^1.0.5",
+    "express": "^4.16.3",
+    "mongoose": "^5.1.7"
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.8",
@@ -57,19 +59,19 @@
     "@types/react-dom": "^16.0.6",
     "@types/react-router-dom": "^4.2.7",
     "@types/reactstrap": "^6.0.0",
+    "@types/remarkable": "^1.7.0",
     "@types/request": "^2.47.1",
     "@types/request-promise-native": "^1.0.15",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "express": "^4.16.3",
-    "jest": "^23.2.0",
-    "mongoose": "^5.1.7",
+    "babel-preset-react-app": "^3.1.2",
     "node-sass": "^4.9.2",
     "nodemon": "^1.17.5",
-    "parcel-bundler": "^1.9.3",
+    "parcel-bundler": "^1.9.4",
     "postcss-modules": "^1.1.0",
     "ts-node": "^7.0.0",
     "tslint": "^5.10.0",
-    "typescript": "^2.9.2"
+    "typescript": "^2.9.2",
+    "jest": "^23.2.0"
   }
 }

@@ -9,7 +9,7 @@ export const Footer = () => {
                     <br />
                     Icons from thenounproject.com
                     <br />
-                    <a href="#">Github</a> | <a href="#">Facebook</a> | <a href="#">Contact</a>
+                    <a href="https://github.com/hongee/nasigoreng">Github</a> | <a target="_blank" href="https://www.facebook.com/groups/122880215014668/">Facebook</a> | <a href="mailto:exco@uclassa.org">Contact</a>
                 </div>
             </div>
         </footer>

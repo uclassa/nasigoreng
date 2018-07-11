@@ -8,8 +8,9 @@ const Config = {
     SESSION_SECRET: process.env.SESSION_SECRET || "this-is-only-safe-for-local-dev",
     FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID,
     FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,
-    FIRST_TIME_SETUP_KEY: process.env.FIRST_TIME_SETUP_KEY,
-    SOTONG_GUIDE_URL: process.env.SOTONG_GUIDE_URL
+    FIRST_TIME_SETUP_KEY: process.env.FIRST_TIME_SETUP_KEY || "uclassa",
+    SOTONG_GUIDE_URL: process.env.SOTONG_GUIDE_URL,
+    SITE_URL: process.env.SITE_URL || ""
 };
 
 export default Config;

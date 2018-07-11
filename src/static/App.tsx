@@ -20,8 +20,8 @@ const initialAppState: IAppState = {
 };
 
 class App extends React.Component<undefined, Readonly<IAppState>> {
-    constructor() {
-        super(undefined);
+    constructor(props) {
+        super(props);
         this.state = initialAppState;
     }
 
