@@ -44,6 +44,11 @@ export const Navbar: StatelessComponent<IRequiresAppState> = ({appState: {userDa
                                             Profile (TBD)
                                         </DropdownItem>
                                         <DropdownItem>
+                                            <Link to="/users">
+                                                Members
+                                            </Link>
+                                        </DropdownItem>
+                                        <DropdownItem>
                                             <a href="/auth/logout">Log Out</a>
                                         </DropdownItem>
                                     </>

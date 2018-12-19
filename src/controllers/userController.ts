@@ -1,11 +1,15 @@
 import { Request, Response, NextFunction } from "express";
 import Config from "../config";
 import { UnauthorizedError, APIError } from "../errors/Errors";
-import { User } from "../models/User";
+import { User, IUser, ISimpleUser } from "../models/User";
 
 interface ISetupQueryParams {
     key?: string;
     email?: string;
+}
+
+export interface IUserListResponse {
+    users: Array<ISimpleUser>;
 }
 
 export const getCurrentUser = (req: Request, res: Response) => {
@@ -21,9 +25,21 @@ export const getCurrentUser = (req: Request, res: Response) => {
 export const listUsers = (req: Request, res: Response) => {
     User.find({})
     .then((users) => {
+        const simpleUsers = users.map(v => ({
+            email: v.email,
+            firstName: v.firstName,
+            lastName: v.lastName,
+            bio: v.bio,
+            graduation: v.graduation,
+            major: v.major,
+            image: v.image,
+            admin: v.admin,
+            approved: v.approved
+        }));
+
         res.json({
-            data: users
-        });
+            users: simpleUsers
+        } as IUserListResponse);
     });
 };
 

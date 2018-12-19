@@ -1,17 +1,21 @@
 import mongoose from "mongoose";
 
-interface IUser {
+interface IUser extends ISimpleUser {
+    fbUserId: string;
+    fbToken: string;
+}
+
+interface ISimpleUser {
     email: string;
     firstName: string;
     lastName: string;
-    fbUserId: string;
-    fbToken: string;
     bio: string;
     graduation: Date;
     major: string;
     image: string;
     admin: boolean;
     approved: boolean;
+
 }
 
 interface IUserModel extends IUser, mongoose.Document {}
@@ -32,4 +36,4 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model<IUserModel>("User", UserSchema);
 
-export {IUser, IUserModel, User};
+export {IUser, IUserModel, ISimpleUser, User};

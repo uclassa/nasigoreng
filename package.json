@@ -9,6 +9,7 @@
   "author": "UCLA SSA",
   "license": "MIT",
   "scripts": {
+    "deploy": "npm run clean && npm run build && yes | gcloud app deploy",
     "start": "npm run serve",
     "build": "npm run build-ts && npm run build-parcel",
     "clean": "rm -rf dist/",

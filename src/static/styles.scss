@@ -190,16 +190,18 @@ text-transform: uppercase;
     }
 }
 
+.page {
+    h1 {
+        font-weight: 700;
+        font-size: 3rem;
+    }
+}
+
 .sotong-guide {
     overflow-wrap: break-word;
 
     .sotong {
         height: 50px;
-    }
-
-    h1 {
-        font-weight: 700;
-        font-size: 3rem;
     }
 
     .toc {
@@ -220,9 +222,16 @@ text-transform: uppercase;
             font-weight: 600;
             list-style-type: none;
             padding-left: 0;
+            max-height: 400px;
+            overflow-y: scroll;
+
             ul {
                 padding-left: 1rem;
                 font-weight: normal;
+
+                ul {
+                    display: none;
+                }
             }
         }    
     }

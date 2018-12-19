@@ -6,6 +6,7 @@ import { IUser, User } from "../models/User";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import SotongGuidePage from "./components/SotongGuide";
+import UserViewPage from "./components/UserView";
 
 export interface IAppState {
     userData?: IUser;
@@ -60,7 +61,8 @@ class App extends React.Component<undefined, Readonly<IAppState>> {
                             <main role="main">
                                 {/* <GreetOrSignIn /> */}
                                 <Switch>
-                                    <Route component={SotongGuidePage} path="/guide"/>
+                                    <Route render={() => <SotongGuidePage appState={this.state}/>} path="/guide"/>
+                                    <Route component={UserViewPage} path="/users"/>
                                     <Route component={HomePage} path="/"/>
                                 </Switch>
                             </main>

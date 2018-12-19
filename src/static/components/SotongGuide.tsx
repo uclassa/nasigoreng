@@ -3,43 +3,49 @@ import { IAppState } from "../App";
 import axios from "axios";
 import sotongImg from "../assets/squid.png";
 import { IGuideResponse } from "../../controllers/contentController";
-import { throws } from "assert";
 interface ISGState {
     markdown?: string;
     editLink?: string;
     html?: string;
     toc?: string;
+    fetchTime: Date;
 }
 
 const initialSGState: ISGState = {
     markdown: undefined,
     editLink: undefined,
-    html: undefined
-    toc: undefined;
+    html: undefined,
+    toc: undefined,
+    fetchTime: undefined
 };
 
-class SotongGuidePage extends React.Component<IAppState, ISGState> {
+class SotongGuidePage extends React.Component<{ appState: IAppState }, ISGState> {
     constructor(props) {
         super(props);
         this.state = initialSGState;
+        this.refreshGuide = this.refreshGuide.bind(this);
     }
 
     componentWillMount() {
-        axios.get<IGuideResponse>("/api/guide")
+        this.refreshGuide();
+    }
+
+    refreshGuide(force: Boolean = false) {
+        axios.get<IGuideResponse>("/api/guide" + (force ? "?force=true" : ""))
         .then(data => {
-            console.log(data.data.html);
             this.setState({
                 markdown: data.data.md,
                 html: data.data.html,
                 editLink: data.data.editLink,
-                toc: data.data.toc
+                toc: data.data.toc,
+                fetchTime: data.data.fetchTime
             });
         });
     }
 
     render() {
         return(
-            <div className="sotong-guide mt-2">
+            <div className="sotong-guide page mt-2">
                 <div className="row align-items-center">
                     <div className="col d-flex">
                         <img className="sotong mr-2 hidden-xs-down" src={sotongImg} />
@@ -54,6 +60,8 @@ class SotongGuidePage extends React.Component<IAppState, ISGState> {
                                 <a href={this.state.editLink} target="_blank">Edit the guide.</a> :
                                 <a href="/auth/facebook">Sign In</a>
                             }
+                            {this.state.fetchTime ? ` | Last updated: ${this.state.fetchTime.toString()} | ` : ""}
+                            {this.props.appState.userData && this.props.appState.userData.admin ? <a href="#" onClick={() => this.refreshGuide(true)}>Refresh</a> : ""}
                         </small>
                     </div>
                 </div>

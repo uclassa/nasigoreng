@@ -10,24 +10,40 @@ export interface IGuideResponse {
     editLink: string;
     html: string;
     toc: string;
+    fetchTime?: Date;
 }
 
+export interface IGuideQueryParams {
+    force?: boolean;
+}
+
+
+let cachedGuide: IGuideResponse | undefined = undefined;
+
 export const getSotongGuide = ((req: Request, res: Response) => {
-    const tocRenderer = new Remarkable().use(toc.plugin());
-    const mdRenderer = new Remarkable().use(function(remarkable) {
-        remarkable.renderer.rules.heading_open = function(tokens, idx) {
-            return "<h" + tokens[idx].hLevel + " id=" + toc.slugify((<any>tokens[idx + 1]).content) + ">";
-        };
-      });
-    request.get(Config.SOTONG_GUIDE_URL)
-    .then((data) => {
-        const mdPageDom = cheerio.load(data);
-        const md = mdPageDom(".markdown-body").html();
-        res.send({
-            md: md,
-            toc: mdRenderer.render(toc(md).content),
-            html: mdRenderer.render(md),
-            editLink: req.user ? Config.SOTONG_GUIDE_URL : undefined // TODO: make this more secure... somehow
-        } as IGuideResponse);
-    });
+    const query = <IGuideQueryParams> req.query;
+    if ((query.force && req.user && req.user.admin) || !cachedGuide) {
+        const mdRenderer = new Remarkable().use(function(remarkable) {
+            remarkable.renderer.rules.heading_open = function(tokens, idx) {
+                return "<h" + tokens[idx].hLevel + " id=" + toc.slugify((<any>tokens[idx + 1]).content) + ">";
+            };
+          });
+
+        request.get(Config.SOTONG_GUIDE_URL)
+        .then((data) => {
+            const mdPageDom = cheerio.load(data);
+            const md = mdPageDom(".markdown-body").html();
+            const response: IGuideResponse = {
+                md: md,
+                toc: mdRenderer.render(toc(md).content),
+                html: mdRenderer.render(md),
+                editLink: req.user ? Config.SOTONG_GUIDE_URL : undefined, // TODO: make this more secure... somehow
+                fetchTime: new Date()
+            };
+            cachedGuide = response;
+            res.send(cachedGuide);
+        });
+    } else {
+        res.send(cachedGuide);
+    }
 });
