@@ -1,18 +1,26 @@
 interface IAPIError extends Error {
-    code: number;
+  code: number;
 }
 
 class APIError implements IAPIError {
-    name: string;
-    constructor(readonly code: number, readonly message: string) {}
+  name: string;
+  payload?: Error;
+  constructor(readonly code: number, readonly message: string) {}
 }
 
 class UnauthorizedError extends APIError {
-    name = "Unauthorized";
-    constructor() { super(403, "Not authorized to access this resource."); }
+  name = "Unauthorized";
+  constructor() {
+    super(403, "Not authorized to access this resource.");
+  }
 }
 
-export {
-    APIError,
-    UnauthorizedError
-};
+class ValidationError extends APIError {
+  name = "Invalid Data";
+  constructor(cause?: Error) {
+    super(400, "The input is invalid.");
+    this.payload = cause;
+  }
+}
+
+export { APIError, UnauthorizedError, ValidationError };

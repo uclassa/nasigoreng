@@ -45,3 +45,5 @@ coverage
 dist/
 
 app.yaml
+
+service_token.json

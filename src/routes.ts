@@ -1,27 +1,56 @@
 import express from "express";
 import passport from "passport";
-import { adminRequired, authenticationRequired } from "./middleware";
-import { firstTimeSetupHandler, listUsers, getCurrentUser } from "./controllers/userController";
+import {
+  adminRequired,
+  authenticationRequired,
+  approvalRequired
+} from "./middleware";
+import {
+  firstTimeSetupHandler,
+  listUsers,
+  getCurrentUser,
+  updateUser
+} from "./controllers/userController";
 import { getSotongGuide } from "./controllers/contentController";
+import {
+  listTestBank,
+  createSignedUpload,
+  createTestBank,
+  getOneTestbankFile
+} from "./controllers/testBankController";
 
 const apiRoutes = express.Router();
 
 apiRoutes.get("/guide", getSotongGuide);
 apiRoutes.get("/setup", authenticationRequired, firstTimeSetupHandler);
+
 apiRoutes.get("/users/current", getCurrentUser);
-apiRoutes.get("/users", authenticationRequired, listUsers);
+apiRoutes.get("/users", adminRequired, listUsers);
+apiRoutes.put("/users/:email", authenticationRequired, updateUser);
+
+apiRoutes.get("/files", approvalRequired, listTestBank);
+apiRoutes.post("/files/upload-url", approvalRequired, createSignedUpload);
+apiRoutes.post("/files", approvalRequired, createTestBank);
+apiRoutes.get("/files/:id", approvalRequired, getOneTestbankFile);
 
 apiRoutes.use("/admin/*", adminRequired);
 
 const authRoutes = express.Router();
 
-authRoutes.get("/facebook", passport.authenticate("facebook", {scope: ["email", "public_profile"]}));
-authRoutes.get("/facebook/callback", passport.authenticate("facebook", { failureRedirect: "/login"}), (req, res) => {
+authRoutes.get(
+  "/facebook",
+  passport.authenticate("facebook", { scope: ["email", "public_profile"] })
+);
+authRoutes.get(
+  "/facebook/callback",
+  passport.authenticate("facebook", { failureRedirect: "/login" }),
+  (req, res) => {
     res.redirect(req.session.next || "/profile");
-});
+  }
+);
 authRoutes.get("/logout", (req: express.Request, res: express.Response) => {
-    req.logout();
-    res.redirect("/");
+  req.logout();
+  res.redirect("/");
 });
 
-export {apiRoutes, authRoutes};
+export { apiRoutes, authRoutes };
