@@ -23,8 +23,8 @@ interface ITestBankFileModel extends ITestBankFile, mongoose.Document {}
 export const ValidQuarters = ["Summer", "Fall", "Winter", "Spring", "N/A"];
 
 const TestBankFileSchema = new Schema({
-  name: String,
-  department: String,
+  name: { type: String, required: true },
+  department: { type: String, required: true },
   year: {
     type: String,
     validate: {
@@ -35,7 +35,7 @@ const TestBankFileSchema = new Schema({
       }
     }
   },
-  gcpName: String,
+  gcpName: { type: String, unique: true },
   quarter: {
     type: String,
     enum: ValidQuarters
@@ -49,7 +49,7 @@ const TestBankFileSchema = new Schema({
       }
     }
   },
-  professor: String,
+  professor: { type: String, required: true },
   uploadedBy: { type: Schema.Types.ObjectId, ref: "User" },
   uploadedOn: Date
 });

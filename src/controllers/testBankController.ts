@@ -106,6 +106,7 @@ export const createTestBank = (
     .then(() => {
       payload.uploadedBy = req.user;
       payload.gcpName = fname;
+      payload.uploadedOn = new Date();
       return payload.save();
     })
     .then(d => {
