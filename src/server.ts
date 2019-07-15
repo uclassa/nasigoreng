@@ -80,5 +80,6 @@ app.get("*", (_, response) => {
 
 // Start the server
 app.listen(Config.PORT, () => {
-  console.log("Server is running!");
+   console.log(Config.MONGO_URI);
+    console.log("Server is running!");
 });

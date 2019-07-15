@@ -1,6 +1,7 @@
 import React, { StatelessComponent } from "react";
 import bear from "../assets/bear.png";
 import squid from "../assets/squid.png";
+import f_logo from "../assets/f_logo.png";
 import { IRequiresAppState } from "../App";
 import {
   NavItem,
@@ -19,7 +20,8 @@ export const Navbar: StatelessComponent<IRequiresAppState> = ({
   const userIconOrSignIn = userData ? (
     <img className="img-fluid rounded profile-img" src={userData.image} />
   ) : (
-    <a className="nav-link" href="/auth/facebook">
+    <a className="nav-link fb-link" href="/auth/facebook">
+      <img src={f_logo} className="f-logo" />
       Sign In
     </a>
   );
@@ -61,13 +63,18 @@ export const Navbar: StatelessComponent<IRequiresAppState> = ({
                       </DropdownItem>
                     )}
                     <DropdownItem divider />
+                    {userData.approved && (
+                      <DropdownItem>
+                        <Link to="/pcp">Peer Counselling</Link>
+                      </DropdownItem>
+                    )}
                     <DropdownItem disabled>Profile (TBD)</DropdownItem>
                     {userData.admin && (
                       <DropdownItem>
                         <Link to="/users">Members</Link>
                       </DropdownItem>
                     )}
-                    <DropdownItem>
+                   <DropdownItem>
                       <a href="/auth/logout">Log Out</a>
                     </DropdownItem>
                   </>

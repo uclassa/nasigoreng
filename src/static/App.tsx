@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import axios from "axios";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { HomePage } from "./components/Home";
@@ -8,6 +8,8 @@ import { Footer } from "./components/Footer";
 import SotongGuidePage from "./components/SotongGuide";
 import UserViewPage from "./components/UserView";
 import TestBank from "./components/TestBank";
+import UserProfilePage from "./components/UserProfile";
+import PCP from "./components/PCP";
 
 interface IAppState {
   userData?: IUser;
@@ -75,6 +77,14 @@ class App extends React.Component<{}, Readonly<IAppState>> {
                 <Route
                   render={() => <TestBank appState={this.state} />}
                   path="/testbank"
+                />
+                <Route
+                  render={() => <UserProfilePage appState={this.state} />}
+                  path="/profile"
+                />
+                <Route
+                  render={() => <PCP appState={this.state} />}
+                  path="/pcp"
                 />
                 <Route component={HomePage} path="/" />
               </Switch>

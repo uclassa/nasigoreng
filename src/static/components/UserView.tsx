@@ -48,6 +48,20 @@ class UserViewPage extends React.Component<IUserViewProps, IUserViewState> {
     }
   };
 
+  handleRejectClick = (index: number, email: string) => () => {
+    if (!this.state.users) return;
+    if (this.state.users[index].email == email) {
+      axios
+        .put<ISingleUserResponse>(`/api/users/${encodeURIComponent(email)}`, {
+          ...this.state.users[index],
+          approved: false
+        })
+        .then(result => {
+          this.reload();
+        });
+    }
+  };
+
   handleMakeAdmin = (index: number, email: string) => () => {
     if (!this.state.users) return;
     if (!window.confirm("Are you sure?")) return;
@@ -74,13 +88,19 @@ class UserViewPage extends React.Component<IUserViewProps, IUserViewState> {
         <td>{user.email}</td>
         <td>
           {!user.approved ? (
-            <Button onClick={this.handleApproveClick(index, user.email)}>
+            <Button className="ml-1" onClick={this.handleApproveClick(index, user.email)}>
               Approve
             </Button>
           ) : (
             undefined
           )}
-
+          {!user.approved ? (
+            <Button className="ml-1" onClick={this.handleRejectClick(index, user.email)}>
+              Reject
+            </Button>
+          ) : (
+            undefined
+          )}
           {!user.admin ? (
             <Button
               color="danger"

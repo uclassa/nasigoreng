@@ -9,7 +9,8 @@ import {
   firstTimeSetupHandler,
   listUsers,
   getCurrentUser,
-  updateUser
+  updateUser,
+  listPCPMentors
 } from "./controllers/userController";
 import { getSotongGuide } from "./controllers/contentController";
 import {
@@ -26,6 +27,7 @@ apiRoutes.get("/setup", authenticationRequired, firstTimeSetupHandler);
 
 apiRoutes.get("/users/current", getCurrentUser);
 apiRoutes.get("/users", adminRequired, listUsers);
+apiRoutes.get("/users/pcp", authenticationRequired, listPCPMentors);
 apiRoutes.put("/users/:email", authenticationRequired, updateUser);
 
 apiRoutes.get("/files", approvalRequired, listTestBank);
