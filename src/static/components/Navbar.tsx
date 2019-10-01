@@ -68,6 +68,31 @@ export const Navbar: StatelessComponent<IRequiresAppState> = ({
                         <Link to="/pcp">Peer Counselling</Link>
                       </DropdownItem>
                     )}
+                    {userData.admin && (
+                      <DropdownItem>
+                        <Link to="/users">Members</Link>
+                      </DropdownItem>
+                    )}
+                    {userData.approved && (
+                      <DropdownItem>
+                        <Link to="/profile">Profile</Link>
+                      </DropdownItem>
+                    )}
+                   <DropdownItem>
+                      <a href="/auth/logout">Log Out</a>
+                    </DropdownItem>
+                  </>
+                )}
+              </DropdownMenu>
+            </UncontrolledDropdown>
+            <NavItem>{userIconOrSignIn}</NavItem>
+          </Nav>
+        </Collapse>
+      </div>
+    </nav>
+  );
+};
+                      
                     {userData.approved && (
                       <DropdownItem>
                         <Link to="/profile">Profile</Link>
