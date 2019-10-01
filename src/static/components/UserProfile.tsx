@@ -1,6 +1,6 @@
 import * as React from "react";
 import axios from "axios";
-import { Table, Button } from "reactstrap";
+import { Table, Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import { ISimpleUser } from "../../models/User";
 import { IAppState } from "../App";
 import {
@@ -8,20 +8,21 @@ import {
   ISingleUserResponse
 } from "../../controllers/userController";
 
-interface IUserViewProps {
+interface IUserProfileProps {
   appState: IAppState;
 }
 
-interface IUserViewState {
-  users?: Array<ISimpleUser>;
+interface IUserProfileState {
+  userData: ISimpleUser;
 }
 
-class UserProfilePage extends React.Component<IUserViewProps, IUserViewState> {
+class UserProfilePage extends React.Component<IUserProfileProps, IUserProfileState> {
   constructor(props) {
     super(props);
     this.state = {
-      users: undefined
+      userData: this.props.appState.userData
     };
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount() {
@@ -29,55 +30,65 @@ class UserProfilePage extends React.Component<IUserViewProps, IUserViewState> {
   }
 
   reload() {
-    axios.get<IUserListResponse>("/api/users").then(data => {
-      this.setState({ users: data.data.users });
-    });
+    this.setState({ userData: this.props.appState.userData });
+  }
+
+  handleChange(event) {
+    console.log("Handing some changes");
+    console.log(event)
+    if (!this.state.userData) return;
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    const email = this.state.userData.email;
+
+    axios
+      .put<ISingleUserResponse>(`/api/users/${encodeURIComponent(email)}`, {
+        ...this.state.userData,
+        pcpMentor: value
+      })
+      .then(result => {
+        this.state.userData.pcpMentor = value;
+        this.reload();
+      });
   }
 
   render() {
-    const UserRow = (user: ISimpleUser, index: number) => (
-      <tr key={index}>
-        <td className="profile-img-col">
-          <img className="img-fluid rounded profile-img" src={user.image} />
-        </td>
-        <td>{user.firstName}</td>
-        <td>{user.lastName}</td>
-        <td>{user.email}</td>
-      </tr>
-    );
 
-    const UserTables = () => {
-      return this.state.users ? (
-        <Table className="mt-2" borderless hover>
-          <thead>
-            <tr>
-              <th />
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>{this.state.users.map((u, i) => UserRow(u, i))}</tbody>
-        </Table>
+    const UserProfile = () => {
+      return this.state.userData ? (
+        <Form className="mt-2">
+          <div className="row">
+            <div className="col">
+              <FormGroup check>
+                <Label check>
+                  <Input
+                    type="checkbox"
+                    id="pcp"
+                    checked={this.state.userData.pcpMentor}
+                    onChange={this.handleChange}
+                  />{' '}
+                  PCP Mentor
+                </Label>
+              </FormGroup>
+            </div>
+          </div>
+        </Form>
       ) : (
         <h4 className="mt-2">Loading...</h4>
       );
-    };
+
+    }
 
     return (
-      <div className="page user-list-view mt-2">
+      <div className="page user-profile-view mt-2">
         <div className="row align-items-center">
           <div className="col">
-            <h1 className="mb-0">Profile</h1>
+            <h1 className="mb-0"> Profile: WIP </h1>
           </div>
         </div>
         <div className="divider" />
-        <div className="row">
-          <div className="col">
-            <UserTables />
-          </div>
-        </div>
+        <UserProfile />
       </div>
     );
   }

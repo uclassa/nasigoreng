@@ -42,7 +42,7 @@ class PCP extends React.Component<IUserViewProps, IUserViewState> {
         </td>
         <td>{user.firstName}</td>
         <td>{user.lastName}</td>
-        <td>{user.email}</td>
+        <td>{user.major}</td>
         <td>{user.preferredChannel}</td>
       </tr>
       
@@ -56,7 +56,7 @@ class PCP extends React.Component<IUserViewProps, IUserViewState> {
               <th />
               <th>First Name</th>
               <th>Last Name</th>
-              <th>Email</th>
+              <th>Major</th>
               <th>Preferred Communication</th>
               <th />
             </tr>

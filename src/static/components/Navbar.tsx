@@ -68,10 +68,9 @@ export const Navbar: StatelessComponent<IRequiresAppState> = ({
                         <Link to="/pcp">Peer Counselling</Link>
                       </DropdownItem>
                     )}
-                    <DropdownItem disabled>Profile (TBD)</DropdownItem>
-                    {userData.admin && (
+                    {userData.approved && (
                       <DropdownItem>
-                        <Link to="/users">Members</Link>
+                        <Link to="/profile">Profile</Link>
                       </DropdownItem>
                     )}
                    <DropdownItem>
