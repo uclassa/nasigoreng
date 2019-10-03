@@ -68,61 +68,68 @@ class UserProfilePage extends React.Component<IUserProfileProps, IUserProfileSta
   }
 
   render() {
-    
-    return this.state.userData ? (
-      <div className="page user-profile-view mt-2">
-        <div className="row align-items-center">
-          <div className="col">
-            <h1 className="mb-0"> Profile: WIP </h1>
-          </div>
-        </div>
-        <div className="divider" />
-          <Form className="mt-2">
-            <div className="row">
-              <div className="col">
-                <FormGroup>
-                  <Label for="major">Major</Label>
-                  <Input 
-                    type="text" 
-                    name="major" 
-                    id="major" 
-                    placeholder="Please add major" 
-                    value={this.state.userData.major} 
-                    onChange={this.handleChange("major")}
-                  />
-                </FormGroup>
-                <FormGroup check>
-                  <Label check>
-                    <Input
-                      type="checkbox"
-                      id="pcp"
-                      checked={this.state.userData.pcpMentor}
-                      onChange={this.handleChange("pcpMentor")}
-                    />{' '}
-                    PCP Mentor
-                  </Label>
-                </FormGroup>
-                <br />
-                <FormGroup>
-                  <Label for="preferredComm">Preferred Channel of Communication (For PCP Mentors)</Label>
-                  <Input 
-                    type="text" 
-                    name="preferredComm" 
-                    id="preferredComm" 
-                    placeholder="Please add preferred mode of communication" 
-                    value={this.state.userData.preferredChannel} 
-                    onChange={this.handleChange("preferredChannel")} 
-                  />
-                </FormGroup>
-                <br />
-                <Button onClick={this.handleSave} color="success">Save</Button>
-              </div>
+    if (!this.state.userData) {
+      return (
+        <h4 className="mt-2">Your profile is currently unavailable for unknown reasons. Please try again. </h4>
+      );
+    } else if (!this.state.userData.approved){
+      return (
+        <h4 className="mt-2">Your account is pending approval, please contact or wait for an admin to approve your account. </h4>
+      );
+    } else {
+      return (
+        <div className="page user-profile-view mt-2">
+          <div className="row align-items-center">
+            <div className="col">
+              <h1 className="mb-0"> Profile: WIP </h1>
             </div>
-          </Form>
-      </div>
-    ) : (
-      <h4 className="mt-2">Loading...</h4>
-    );
+          </div>
+          <div className="divider" />
+            <Form className="mt-2">
+              <div className="row">
+                <div className="col">
+                  <FormGroup>
+                    <Label for="major">Major</Label>
+                    <Input 
+                      type="text" 
+                      name="major" 
+                      id="major" 
+                      placeholder="Please add major" 
+                      value={this.state.userData.major} 
+                      onChange={this.handleChange("major")}
+                    />
+                  </FormGroup>
+                  <FormGroup check>
+                    <Label check>
+                      <Input
+                        type="checkbox"
+                        id="pcp"
+                        checked={this.state.userData.pcpMentor}
+                        onChange={this.handleChange("pcpMentor")}
+                      />{' '}
+                      PCP Mentor
+                    </Label>
+                  </FormGroup>
+                  <br />
+                  <FormGroup>
+                    <Label for="preferredComm">Preferred Channel of Communication (For PCP Mentors)</Label>
+                    <Input 
+                      type="text" 
+                      name="preferredComm" 
+                      id="preferredComm" 
+                      placeholder="Please add preferred mode of communication" 
+                      value={this.state.userData.preferredChannel} 
+                      onChange={this.handleChange("preferredChannel")} 
+                    />
+                  </FormGroup>
+                  <br />
+                  <Button onClick={this.handleSave} color="success">Save</Button>
+                </div>
+              </div>
+            </Form>
+        </div>
+      )
+    }
   }
 }
 
