@@ -2,7 +2,7 @@ import * as React from "react";
 import { ChangeEvent } from "react";
 import axios from "axios";
 import { Table, Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
-import { ISimpleUser } from "../../models/User";
+import { IUser } from "../../models/User";
 import { IAppState } from "../App";
 import {
   IUserListResponse,
@@ -14,7 +14,7 @@ interface IUserProfileProps {
 }
 
 interface IUserProfileState {
-  userData: ISimpleUser;
+  userData: IUser;
 }
 
 class UserProfilePage extends React.Component<IUserProfileProps, IUserProfileState> {
@@ -22,7 +22,7 @@ class UserProfilePage extends React.Component<IUserProfileProps, IUserProfileSta
     super(props);
     // TODO: Change hacky method for setting user data
     this.state = {
-      userData: this.props.appState.userData
+      userData: undefined
     };
     this.handleChange = this.handleChange.bind(this)
     this.handleSave = this.handleSave.bind(this)
@@ -33,10 +33,8 @@ class UserProfilePage extends React.Component<IUserProfileProps, IUserProfileSta
   }
 
   reload() {
-    if (!this.state.userData) return;
-    const email = this.state.userData.email;
-    axios.get<ISingleUserResponse>("/api/users/current").then(data => {
-      this.setState({ userData: data.data.user });
+    axios.get<{ user: IUser }>("/api/users/current").then(res => {
+      this.setState({ userData: res.data.user });
     });
   }
 

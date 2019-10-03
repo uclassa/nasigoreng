@@ -20,7 +20,7 @@ export const getCurrentUser = (req: Request, res: Response) => {
   if (req.user) {
     res.json({
       user: req.user
-    } as ISingleUserResponse);
+    });
   } else {
     throw new UnauthorizedError();
   }
