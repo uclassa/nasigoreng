@@ -52,11 +52,9 @@ class UserViewPage extends React.Component<IUserViewProps, IUserViewState> {
     if (!this.state.users) return;
     if (this.state.users[index].email == email) {
       axios
-        .put<ISingleUserResponse>(`/api/users/${encodeURIComponent(email)}`, {
-          ...this.state.users[index],
-          approved: false
-        })
+        .put<ISingleUserResponse>(`/api/users/${encodeURIComponent(email)}/delete`)
         .then(result => {
+          console.log(result);
           this.reload();
         });
     }

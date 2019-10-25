@@ -55,6 +55,21 @@ export const listUsers = (req: Request, res: Response) => {
   });
 };
 
+export const deleteUser = (req: Request, res: Response) => {
+  const email = req.params.email;
+
+  if (req.user.admin != true){
+    throw new UnauthorizedError();
+  }
+
+  User.findOneAndRemove({ email }).then(user => {
+    res.json({
+      user: userToSimpleUser(user)
+    } as ISingleUserResponse)
+  });
+
+}
+
 export const listPCPMentors = (req: Request, res: Response) => {
   User.find({pcpMentor: true}).then(users => {
     const simpleUsers = users.map(userToSimpleUser);
