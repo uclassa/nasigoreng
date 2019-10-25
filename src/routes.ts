@@ -10,6 +10,7 @@ import {
   listUsers,
   getCurrentUser,
   updateUser,
+  deleteUser,
   listPCPMentors
 } from "./controllers/userController";
 import { getSotongGuide } from "./controllers/contentController";
@@ -29,6 +30,7 @@ apiRoutes.get("/users/current", getCurrentUser);
 apiRoutes.get("/users", adminRequired, listUsers);
 apiRoutes.get("/users/pcp", authenticationRequired, listPCPMentors);
 apiRoutes.put("/users/:email", authenticationRequired, updateUser);
+apiRoutes.put("/users/:email/delete", adminRequired, deleteUser);
 
 apiRoutes.get("/files", approvalRequired, listTestBank);
 apiRoutes.post("/files/upload-url", approvalRequired, createSignedUpload);
