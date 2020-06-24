@@ -28,17 +28,18 @@ export const getSotongGuide = ((req: Request, res: Response) => {
                 return "<h" + tokens[idx].hLevel + " id=" + toc.slugify((<any>tokens[idx + 1]).content) + ">";
             };
           });
-
         request.get(Config.SOTONG_GUIDE_URL)
         .then((data) => {
             const mdPageDom = cheerio.load(data);
             const md = mdPageDom(".markdown-body").html();
+            const dateFormat = require("dateformat");
+            const now = new Date();
             const response: IGuideResponse = {
                 md: md,
                 toc: mdRenderer.render(toc(md).content),
                 html: mdRenderer.render(md),
                 editLink: req.user ? Config.SOTONG_GUIDE_URL : undefined, // TODO: make this more secure... somehow
-                fetchTime: new Date()
+                fetchTime: dateFormat(now, "dddd, mmmm dS, yyyy, h:MM:ss TT")
             };
             cachedGuide = response;
             res.send(cachedGuide);

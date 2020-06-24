@@ -72,9 +72,16 @@ class UserProfilePage extends React.Component<IUserProfileProps, IUserProfileSta
       return (
         <h4 className="mt-2">Your profile is currently unavailable for unknown reasons. Please try again. </h4>
       );
-    } else if (!this.state.userData.approved){
+    } else if (!this.state.userData.approved) {
       return (
-        <h4 className="mt-2">Your account is pending approval, please contact or wait for an admin to approve your account. </h4>
+        <div>
+          <h4 className="mt-2">
+            Your account is currently pending approval
+          </h4>
+          <h5 className="mt-2">
+            Please <a target="_blank" href="https://www.facebook.com/groups/122880215014668/">message an admin</a> or <a href="mailto:exco@uclassa.org">email us</a> for access
+          </h5>
+        </div>
       );
     } else {
       return (
@@ -90,16 +97,16 @@ class UserProfilePage extends React.Component<IUserProfileProps, IUserProfileSta
                 <div className="col">
                   <FormGroup>
                     <Label for="major">Major</Label>
-                    <Input 
-                      type="text" 
-                      name="major" 
-                      id="major" 
-                      placeholder="Please add major" 
-                      value={this.state.userData.major} 
+                    <Input
+                      type="text"
+                      name="major"
+                      id="major"
+                      placeholder="Please add major"
+                      value={this.state.userData.major}
                       onChange={this.handleChange("major")}
                     />
                   </FormGroup>
-                  <FormGroup check>
+                  {/*<FormGroup check>
                     <Label check>
                       <Input
                         type="checkbox"
@@ -113,15 +120,15 @@ class UserProfilePage extends React.Component<IUserProfileProps, IUserProfileSta
                   <br />
                   <FormGroup>
                     <Label for="preferredComm">Preferred Channel of Communication (For PCP Mentors)</Label>
-                    <Input 
-                      type="text" 
-                      name="preferredComm" 
-                      id="preferredComm" 
-                      placeholder="Please add preferred mode of communication" 
-                      value={this.state.userData.preferredChannel} 
-                      onChange={this.handleChange("preferredChannel")} 
+                    <Input
+                      type="text"
+                      name="preferredComm"
+                      id="preferredComm"
+                      placeholder="Please add preferred mode of communication"
+                      value={this.state.userData.preferredChannel}
+                      onChange={this.handleChange("preferredChannel")}
                     />
-                  </FormGroup>
+                  </FormGroup>*/}
                   <br />
                   <Button onClick={this.handleSave} color="success">Save</Button>
                 </div>
