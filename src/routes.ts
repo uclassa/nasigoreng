@@ -20,6 +20,7 @@ import {
   createTestBank,
   getOneTestbankFile
 } from "./controllers/testBankController";
+import { IUser, IUserModel } from "./models/User";
 
 const apiRoutes = express.Router();
 
@@ -49,7 +50,11 @@ authRoutes.get(
   "/facebook/callback",
   passport.authenticate("facebook", { failureRedirect: "/login" }),
   (req, res) => {
-    res.redirect(req.session.next || "/profile");
+    const user = <IUserModel>req.user;
+    if (user.approved)
+      res.redirect(req.session.next || "/");
+    else
+      res.redirect("/profile");
   }
 );
 authRoutes.get("/logout", (req: express.Request, res: express.Response) => {
