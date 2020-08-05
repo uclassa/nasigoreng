@@ -51,15 +51,19 @@ export const HomePage = () => {
             <div className="divider" />
             <div className="row mt-4 directions">
                 <IntroBlock heading="New to UCLA" icon={squidImg}>
-                    Get oriented with our <Link to="/guide">Sotong Guide</Link> for incoming freshmen, <a href="/auth/facebook">sign up</a> for
-                    an account to get access to our resources, and be sure to
-                    join our <a target="_blank" href="https://www.facebook.com/groups/122880215014668/">SSA Facebook group</a>!
+                    <p>Get oriented with our <Link to="/guide">Sotong Guide</Link> for incoming freshmen and <a href="/auth/facebook">sign up</a> for
+                    an account to get access to our resources!</p>
+                    <p>
+                      Be sure to
+                    join our <a target="_blank" href="https://www.facebook.com/groups/122880215014668/">SSA Facebook group</a>, <a target="_blank" href="https://mailchi.mp/868c856a80ab/join-our-ssa-mailing-list">Slack channel</a>,
+                    and subscribe to our <a target="_blank" href="https://join.slack.com/t/ucla-ssa/shared_invite/zt-g5x25pck-VItLLzkMewtmOcEy0TPwlA">newsletter</a>!
+                    </p>
                 </IntroBlock>
                 <IntroBlock heading="Members/Alumni" icon={oldManImg}>
                     <em>We're still working on this! Let us know if you want any features!</em>
                 </IntroBlock>
                 <IntroBlock heading="Contact Us" icon={phoneImg}>
-                    We're always looking for sponsorship and career opportunities! You can reach us <a href="#">via email</a> or
+                    We're always looking for sponsorship and career opportunities! You can reach us <a href="mailto:exco@uclassa.org">via email</a> or
                     simply drop any of us a message on Facebook!
                 </IntroBlock>
             </div>
