@@ -55,8 +55,8 @@ export const HomePage = () => {
                     an account to get access to our resources!</p>
                     <p>
                       Be sure to
-                    join our <a target="_blank" href="https://www.facebook.com/groups/122880215014668/">SSA Facebook group</a>, <a target="_blank" href="https://mailchi.mp/868c856a80ab/join-our-ssa-mailing-list">Slack channel</a>,
-                    and subscribe to our <a target="_blank" href="https://join.slack.com/t/ucla-ssa/shared_invite/zt-g5x25pck-VItLLzkMewtmOcEy0TPwlA">newsletter</a>!
+                    join our <a target="_blank" href="https://www.facebook.com/groups/122880215014668/">SSA Facebook group</a>, <a target="_blank" href="https://join.slack.com/t/ucla-ssa/shared_invite/zt-g5x25pck-VItLLzkMewtmOcEy0TPwlA">Slack channel</a>,
+                    and subscribe to our <a target="_blank" href="https://mailchi.mp/868c856a80ab/join-our-ssa-mailing-list">newsletter</a>!
                     </p>
                 </IntroBlock>
                 <IntroBlock heading="Members/Alumni" icon={oldManImg}>
