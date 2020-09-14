@@ -11,7 +11,7 @@ import {
   getCurrentUser,
   updateUser,
   deleteUser,
-  listPCPMentors
+  listPCPMentors, listAddressBook
 } from "./controllers/userController";
 import { getSotongGuide } from "./controllers/contentController";
 import {
@@ -29,7 +29,8 @@ apiRoutes.get("/setup", authenticationRequired, firstTimeSetupHandler);
 
 apiRoutes.get("/users/current", getCurrentUser);
 apiRoutes.get("/users", adminRequired, listUsers);
-apiRoutes.get("/users/pcp", authenticationRequired, listPCPMentors);
+// apiRoutes.get("/users/pcp", authenticationRequired, listPCPMentors);
+apiRoutes.get("/users/address_book", authenticationRequired, listAddressBook);
 apiRoutes.put("/users/:email", authenticationRequired, updateUser);
 apiRoutes.put("/users/:email/delete", adminRequired, deleteUser);
 

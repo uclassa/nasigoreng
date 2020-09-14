@@ -14,9 +14,12 @@ interface ISimpleUser {
   major: string;
   image: string;
   preferredChannel: string;
+  profession: string;
+  company: string;
   admin: boolean;
   approved: boolean;
   pcpMentor: boolean;
+  inAddressBook: boolean;
 }
 
 interface IUserModel extends IUser, mongoose.Document {}
@@ -32,9 +35,12 @@ const UserSchema = new mongoose.Schema({
   major: String,
   image: String,
   preferredChannel: String,
+  profession: String,
+  company: String,
   admin: { type: Boolean, default: false },
   approved: { type: Boolean, default: false },
-  pcpMentor: { type: Boolean, default: false }
+  pcpMentor: { type: Boolean, default: false },
+  inAddressBook: { type: Boolean, default: false}
 });
 
 const User = mongoose.model<IUserModel>("User", UserSchema);
@@ -51,7 +57,10 @@ const userToSimpleUser = (v: IUserModel) =>
     admin: v.admin,
     approved: v.approved,
     preferredChannel: v.preferredChannel,
-    pcpMentor: v.pcpMentor
+    pcpMentor: v.pcpMentor,
+    profession: v.profession,
+    company: v.company,
+    inAddressBook: v.inAddressBook
   } as ISimpleUser);
 
 export { IUser, IUserModel, ISimpleUser, User, userToSimpleUser };
