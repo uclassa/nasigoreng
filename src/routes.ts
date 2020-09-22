@@ -11,7 +11,7 @@ import {
   getCurrentUser,
   updateUser,
   deleteUser,
-  listPCPMentors, listAddressBook
+  listPCPMentors
 } from "./controllers/userController";
 import { getSotongGuide } from "./controllers/contentController";
 import {
@@ -21,6 +21,7 @@ import {
   getOneTestbankFile
 } from "./controllers/testBankController";
 import { IUser, IUserModel } from "./models/User";
+import { listAddressBook } from "./controllers/addressBookController";
 
 const apiRoutes = express.Router();
 
@@ -30,7 +31,7 @@ apiRoutes.get("/setup", authenticationRequired, firstTimeSetupHandler);
 apiRoutes.get("/users/current", getCurrentUser);
 apiRoutes.get("/users", adminRequired, listUsers);
 // apiRoutes.get("/users/pcp", authenticationRequired, listPCPMentors);
-apiRoutes.get("/users/address_book", authenticationRequired, listAddressBook);
+apiRoutes.get("/address_book", authenticationRequired, listAddressBook);
 apiRoutes.put("/users/:email", authenticationRequired, updateUser);
 apiRoutes.put("/users/:email/delete", adminRequired, deleteUser);
 

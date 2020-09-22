@@ -80,16 +80,6 @@ export const listPCPMentors = (req: Request, res: Response) => {
   });
 };
 
-export const listAddressBook = (req: Request, res: Response) => {
-  User.find({inAddressBook: true}).then(users => {
-    const simpleUsers = users.map(userToSimpleUser);
-
-    res.json({
-      users: simpleUsers
-    } as IUserListResponse);
-  })
-}
-
 export const firstTimeSetupHandler = (
   req: Request,
   res: Response,

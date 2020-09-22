@@ -1,26 +1,26 @@
 import * as React from "react";
 import axios from "axios";
-import { Table, Button } from "reactstrap";
-import { ISimpleUser } from "../../models/User";
+import { Card, Button, CardBody, CardText, CardTitle, CardImg, CardDeck } from "reactstrap";
+import { ISimpleAddressBookEntry, AddressBookEntry } from "../../models/AddressBookEntry";
 import { IAppState } from "../App";
 import {
-  IUserListResponse,
-  ISingleUserResponse
-} from "../../controllers/userController";
+  IAddressBookResponse
+} from "../../controllers/addressBookController";
+import CardGroup from "reactstrap/lib/CardGroup";
 
-interface IUserViewProps {
+interface IAddressViewProps {
   appState: IAppState;
 }
 
-interface IUserViewState {
-  users?: Array<ISimpleUser>;
+interface IAddressViewState {
+  addressBook?: Array<ISimpleAddressBookEntry>;
 }
 
-class AddressBook extends React.Component<IUserViewProps, IUserViewState> {
+class AddressBook extends React.Component<IAddressViewProps, IAddressViewState> {
   constructor(props) {
     super(props);
     this.state = {
-      users: undefined
+      addressBook: undefined
     };
   }
 
@@ -29,51 +29,39 @@ class AddressBook extends React.Component<IUserViewProps, IUserViewState> {
   }
 
   reload() {
-    axios.get<IUserListResponse>("/api/users/address_book").then(data => {
-      this.setState({ users: data.data.users });
+    axios.get<IAddressBookResponse>("/api/address_book").then(data => {
+      this.setState({ addressBook: data.data.addressBook });
     });
   }
 
   render() {
-    const UserRow = (user: ISimpleUser, index: number) => (
-      <tr key={index}>
-        <td className="profile-img-col">
-          <img className="img-fluid rounded profile-img" src={user.image} />
-        </td>
-        <td>{user.firstName + " " + user.lastName}</td>
-        <td>{user.graduation}</td>
-        <td>{user.email}</td>
-        <td>{user.profession}</td>
-        <td>{user.company}</td>
-        <td>{user.preferredChannel}</td>
-      </tr>
+    const AddressCard = (address: ISimpleAddressBookEntry, index: number) => (
+      <Card key={index} className="text-center">
+        <CardImg className="img-fluid rounded profile-img" src={address.image || "../assets/bear.png"} />
+        <CardBody>
+          <CardTitle>{address.name}</CardTitle>
+          {address.graduation &&<CardText>{address.graduation}</CardText> }
+          {address.email && <CardText>{address.email}</CardText> }
+          {address.profession && <CardText>{address.profession}</CardText> }
+          {address.company && <CardText>{address.company}</CardText> }
+          {address.preferredChannel && <CardText>{address.preferredChannel}</CardText> }
+        </CardBody>
+      </Card>
       
     );
 
-    const UserTables = () => {
-      return this.state.users ? (
-        <Table className="mt-2" borderless hover>
-          <thead>
-            <tr>
-              <th />
-              <th>Name</th>
-              <th>Class of</th>
-              <th>Email</th>
-              <th>Profession</th>
-              <th>Company</th>
-              <th>Preferred Communication</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>{this.state.users.map((u, i) => UserRow(u, i))}</tbody>
-        </Table>
+    const AddressCards = () => {
+      return this.state.addressBook ? (
+        <CardGroup body>
+          {this.state.addressBook.map((u, i) => AddressCard(u, i))}
+        </CardGroup>
       ) : (
         <h4 className="mt-2">Loading...</h4>
       );
     };
 
     return (
-      <div className="page user-list-view mt-2">
+      <div className="page user-card-view mt-2">
         <div className="row align-items-center">
           <div className="col">
             <h1 className="mb-0">Address Book</h1>
@@ -82,7 +70,7 @@ class AddressBook extends React.Component<IUserViewProps, IUserViewState> {
         <div className="divider" />
         <div className="row">
           <div className="col">
-            <UserTables />
+            <AddressCards />
           </div>
         </div>
       </div>

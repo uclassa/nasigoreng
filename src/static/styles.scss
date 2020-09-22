@@ -298,6 +298,21 @@ label {
   }
 }
 
+.user-card-view {
+  .profile-img {
+    width: 50%
+  }
+
+  .card-group {
+    justify-content: space-evenly;
+
+    .card {
+      flex: 0 0 auto;
+      align-items: center;
+    }
+  }
+}
+
 .testbank-list-view {
   .message {
     margin-left: 2em;
