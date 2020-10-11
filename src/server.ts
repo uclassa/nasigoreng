@@ -16,6 +16,11 @@ import passport from "./auth";
 const MongoStore = connectMongo(session);
 const app = express();
 
+// https://mongoosejs.com/docs/deprecations.html#summary
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useUnifiedTopology', true);
+mongoose.set('useCreateIndex', true);
+
 // This connects to MongoDB, the database where we store our data
 mongoose.connect(
   Config.MONGO_URI,

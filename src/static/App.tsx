@@ -10,6 +10,7 @@ import UserViewPage from "./components/UserView";
 import TestBank from "./components/TestBank";
 import UserProfilePage from "./components/UserProfile";
 import PCP from "./components/PCP";
+import AddressBook from "./components/AddressBook";
 
 interface IAppState {
   userData?: IUser;
@@ -82,9 +83,13 @@ class App extends React.Component<{}, Readonly<IAppState>> {
                   render={() => <UserProfilePage appState={this.state} />}
                   path="/profile"
                 />
-                <Route
+                {/* <Route
                   render={() => <PCP appState={this.state} />}
                   path="/pcp"
+                /> */}
+                <Route 
+                  render={() => <AddressBook appState={this.state} />}
+                  path="/address_book"
                 />
                 <Route component={HomePage} path="/" />
               </Switch>

@@ -14,9 +14,12 @@ interface ISimpleUser {
   major: string;
   image: string;
   preferredChannel: string;
+  profession: string;
+  company: string;
   admin: boolean;
   approved: boolean;
   pcpMentor: boolean;
+  inAddressBook: boolean;
 }
 
 interface IUserModel extends IUser, mongoose.Document {}
