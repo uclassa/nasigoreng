@@ -52,6 +52,7 @@ interface ITestBankState {
   files: ISimpleTestBankFile[];
   message: string;
   queryString: string;
+  displayedFiles: ISimpleTestBankFile[];
 }
 
 const defaultUndefinedState = {
@@ -87,7 +88,8 @@ const defaultTestBankState: ITestBankState = {
   uploadPercent: 0,
   files: [],
   message: "",
-  queryString: ""
+  queryString: "",
+  displayedFiles: []
 };
 
 type StringOrObjectAny = string | any;
@@ -103,7 +105,10 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
   reloadFiles() {
     axios.get<ITestBankListResponse>("/api/files").then(res => {
       console.log(res.data.files);
-      this.setState({ files: res.data.files });
+      this.setState({ 
+        files: res.data.files,
+        displayedFiles: res.data.files
+       });
     });
   }
 
@@ -123,7 +128,7 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
       quarter: this.state.uploadForm.quarter.value,
       name: this.state.uploadForm.file.value.name,
       fileType: this.state.uploadForm.file.value.type,
-      fileCat: this.state.uploadForm.file.value.fileCat
+      fileCat: this.state.uploadForm.fileCat.value
     };
 
     axios
@@ -167,6 +172,8 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
   trueValidator = (v: string) => true;
 
   noTransform = (v: string) => v;
+
+  toLower = (v: string) => v.toLowerCase();
 
   handleChange = (
     key: string,
@@ -242,7 +249,7 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
   };
 
   filteredResults = () => {
-    return this.state.files
+    return this.state.displayedFiles
       .filter(v => {
         return JSON.stringify(v)
           .toLowerCase()
@@ -277,22 +284,23 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
   // handleFilter = (category: string, active: boolean) => {
   handleFilter = (category: string) => {
     // TODO: handle filtering and reloading of page
-    // const testBankFiles = this.state.files;
-    // let filtered: ISimpleTestBankFile[] = [];
-    //
-    // if (testBankFiles) {
-    //   if (category === "ALL")
-    //     filtered = testBankFiles;
-    //   else {
-    //     filtered = testBankFiles.filter((testBankFile: ITestBankFile) => {
-    //       return testBankFile.fileCat === category;
-    //     });
-    //   }
-    // }
-    //
-    // this.setState({
-    //   files: filtered
-    // });
+    const testBankFiles = this.state.files;
+    console.log(testBankFiles)
+    let filtered: ISimpleTestBankFile[] = [];
+    
+    if (testBankFiles) {
+      if (category === "ALL")
+        filtered = testBankFiles;
+      else {
+        filtered = testBankFiles.filter((testBankFile: ITestBankFile) => {
+          return testBankFile.fileCat === category;
+        });
+      }
+    }
+    
+    this.setState({
+      displayedFiles: filtered
+    });
   };
 
   render() {
@@ -356,12 +364,12 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
             />
           </div>
           <ButtonGroup>
-            <Button color="secondary" size="sm" onClick={this.handleFilter("midterm")}>Midterm</Button>
-            <Button color="secondary" size="sm" onClick={this.handleFilter("final")}>Final</Button>
-            <Button color="secondary" size="sm" onClick={this.handleFilter("notes")}>Notes</Button>
-            <Button color="secondary" size="sm" onClick={this.handleFilter("textbook")}>Textbook</Button>
-            <Button color="secondary" size="sm" onClick={this.handleFilter("others")}>Others</Button>
-            <Button color="primary" size="sm" onClick={this.reloadFiles}>Reset</Button>
+            <Button color="secondary" size="sm" onClick={() => this.handleFilter("Midterm")}>Midterm</Button>
+            <Button color="secondary" size="sm" onClick={() => this.handleFilter("Final")}>Final</Button>
+            <Button color="secondary" size="sm" onClick={() => this.handleFilter("Notes")}>Notes</Button>
+            <Button color="secondary" size="sm" onClick={() => this.handleFilter("Textbook")}>Textbook</Button>
+            <Button color="secondary" size="sm" onClick={() => this.handleFilter("Others")}>Others</Button>
+            <Button color="primary" size="sm" onClick={() => this.reloadFiles()}>Reset</Button>
           </ButtonGroup>
         </div>
         <UncontrolledCollapse toggler="#toggler">
