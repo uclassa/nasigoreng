@@ -44,7 +44,7 @@ export const HomePage = () => {
             <div className="row mt-3">
                 <div className="col title">
                     <h2>UCLA</h2>
-                    <h1>Singaporean Students Association</h1>
+                    <h1>Singapore Students' Association</h1>
                     <h5>Your home to all things Singaporean at UCLA!</h5>
                 </div>
             </div>

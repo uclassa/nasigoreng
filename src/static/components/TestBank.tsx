@@ -9,7 +9,8 @@ import {
   Label,
   Input,
   FormFeedback,
-  FormText
+  FormText,
+  ButtonGroup
 } from "reactstrap";
 import { Typeahead, TypeaheadProps } from "react-bootstrap-typeahead";
 import { ISimpleUser } from "../../models/User";
@@ -22,7 +23,7 @@ import {
 
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import "react-bootstrap-typeahead/css/Typeahead-bs4.css";
-import { ISimpleTestBankFile } from "../../models/TestBankFile";
+import { ISimpleTestBankFile, ITestBankFile } from "../../models/TestBankFile";
 import { Link } from "react-router-dom";
 
 interface ITestBankProps {
@@ -41,6 +42,7 @@ interface IUploadFormState {
   year: IFieldWithValidity<string>;
   quarter: IFieldWithValidity<string>;
   file: IFieldWithValidity<File>;
+  fileCat: IFieldWithValidity<string>;
 }
 
 interface ITestBankState {
@@ -71,6 +73,10 @@ const defaultFormState: IUploadFormState = {
   },
   file: {
     value: undefined,
+    invalid: undefined
+  },
+  fileCat: {
+    value: "Midterm",
     invalid: undefined
   }
 };
@@ -116,7 +122,8 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
       year: this.state.uploadForm.year.value,
       quarter: this.state.uploadForm.quarter.value,
       name: this.state.uploadForm.file.value.name,
-      fileType: this.state.uploadForm.file.value.type
+      fileType: this.state.uploadForm.file.value.type,
+      fileCat: this.state.uploadForm.file.value.fileCat
     };
 
     axios
@@ -267,6 +274,27 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
     });
   };
 
+  // handleFilter = (category: string, active: boolean) => {
+  handleFilter = (category: string) => {
+    // TODO: handle filtering and reloading of page
+    // const testBankFiles = this.state.files;
+    // let filtered: ISimpleTestBankFile[] = [];
+    //
+    // if (testBankFiles) {
+    //   if (category === "ALL")
+    //     filtered = testBankFiles;
+    //   else {
+    //     filtered = testBankFiles.filter((testBankFile: ITestBankFile) => {
+    //       return testBankFile.fileCat === category;
+    //     });
+    //   }
+    // }
+    //
+    // this.setState({
+    //   files: filtered
+    // });
+  };
+
   render() {
     const FileRow = (file: ISimpleTestBankFile, index: number) => (
       <tr key={index}>
@@ -293,6 +321,7 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
               <th>Course</th>
               <th>Quarter</th>
               <th>File</th>
+              <th>Type</th>
               <th>Professor</th>
             </tr>
           </thead>
@@ -326,6 +355,13 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
               placeholder="Search..."
             />
           </div>
+          <ButtonGroup>
+            <Button color="secondary" size="sm" onClick={this.handleFilter("midterm")}>Midterm</Button>
+            <Button color="secondary" size="sm" onClick={this.handleFilter("final")}>Final</Button>
+            <Button color="secondary" size="sm" onClick={this.handleFilter("notes")}>Notes</Button>
+            <Button color="secondary" size="sm" onClick={this.handleFilter("textbook")}>Textbook</Button>
+            <Button color="secondary" size="sm" onClick={this.handleFilter("others")}>Others</Button>
+          </ButtonGroup>
         </div>
         <UncontrolledCollapse toggler="#toggler">
           <Form className="mt-2">
@@ -389,6 +425,22 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
                     )}
                   />
                   <FormFeedback>Please enter a valid name.</FormFeedback>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="fileCat">Type</Label>
+                  <Input
+                    type="select"
+                    name="fileCat"
+                    id="fileCat"
+                    value={this.state.uploadForm.fileCat.value}
+                    onChange={this.handleChange("fileCat")}
+                  >
+                    <option>Midterm</option>
+                    <option>Final</option>
+                    <option>Notes</option>
+                    <option>Textbook</option>
+                    <option>Others</option>
+                  </Input>
                 </FormGroup>
               </div>
               <div className="col">
