@@ -361,6 +361,7 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
             <Button color="secondary" size="sm" onClick={this.handleFilter("notes")}>Notes</Button>
             <Button color="secondary" size="sm" onClick={this.handleFilter("textbook")}>Textbook</Button>
             <Button color="secondary" size="sm" onClick={this.handleFilter("others")}>Others</Button>
+            <Button color="primary" size="sm" onClick={this.reloadFiles}>Reset</Button>
           </ButtonGroup>
         </div>
         <UncontrolledCollapse toggler="#toggler">
