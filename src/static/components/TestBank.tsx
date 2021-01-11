@@ -105,7 +105,7 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
   reloadFiles() {
     axios.get<ITestBankListResponse>("/api/files").then(res => {
       console.log(res.data.files);
-      this.setState({ 
+      this.setState({
         files: res.data.files,
         displayedFiles: res.data.files
        });
@@ -283,11 +283,9 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
 
   // handleFilter = (category: string, active: boolean) => {
   handleFilter = (category: string) => {
-    // TODO: handle filtering and reloading of page
     const testBankFiles = this.state.files;
-    console.log(testBankFiles)
     let filtered: ISimpleTestBankFile[] = [];
-    
+
     if (testBankFiles) {
       if (category === "ALL")
         filtered = testBankFiles;
@@ -297,7 +295,7 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
         });
       }
     }
-    
+
     this.setState({
       displayedFiles: filtered
     });
