@@ -9,7 +9,8 @@ import {
   Label,
   Input,
   FormFeedback,
-  FormText
+  FormText,
+  ButtonGroup
 } from "reactstrap";
 import { Typeahead, TypeaheadProps } from "react-bootstrap-typeahead";
 import { ISimpleUser } from "../../models/User";
@@ -22,7 +23,7 @@ import {
 
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import "react-bootstrap-typeahead/css/Typeahead-bs4.css";
-import { ISimpleTestBankFile } from "../../models/TestBankFile";
+import { ISimpleTestBankFile, ITestBankFile } from "../../models/TestBankFile";
 import { Link } from "react-router-dom";
 
 interface ITestBankProps {
@@ -41,6 +42,7 @@ interface IUploadFormState {
   year: IFieldWithValidity<string>;
   quarter: IFieldWithValidity<string>;
   file: IFieldWithValidity<File>;
+  fileCat: IFieldWithValidity<string>;
 }
 
 interface ITestBankState {
@@ -50,6 +52,7 @@ interface ITestBankState {
   files: ISimpleTestBankFile[];
   message: string;
   queryString: string;
+  displayedFiles: ISimpleTestBankFile[];
 }
 
 const defaultUndefinedState = {
@@ -72,6 +75,10 @@ const defaultFormState: IUploadFormState = {
   file: {
     value: undefined,
     invalid: undefined
+  },
+  fileCat: {
+    value: "Midterm",
+    invalid: undefined
   }
 };
 
@@ -81,7 +88,8 @@ const defaultTestBankState: ITestBankState = {
   uploadPercent: 0,
   files: [],
   message: "",
-  queryString: ""
+  queryString: "",
+  displayedFiles: []
 };
 
 type StringOrObjectAny = string | any;
@@ -97,7 +105,10 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
   reloadFiles() {
     axios.get<ITestBankListResponse>("/api/files").then(res => {
       console.log(res.data.files);
-      this.setState({ files: res.data.files });
+      this.setState({
+        files: res.data.files,
+        displayedFiles: res.data.files
+       });
     });
   }
 
@@ -116,7 +127,8 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
       year: this.state.uploadForm.year.value,
       quarter: this.state.uploadForm.quarter.value,
       name: this.state.uploadForm.file.value.name,
-      fileType: this.state.uploadForm.file.value.type
+      fileType: this.state.uploadForm.file.value.type,
+      fileCat: this.state.uploadForm.fileCat.value
     };
 
     axios
@@ -160,6 +172,8 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
   trueValidator = (v: string) => true;
 
   noTransform = (v: string) => v;
+
+  toLower = (v: string) => v.toLowerCase();
 
   handleChange = (
     key: string,
@@ -235,7 +249,7 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
   };
 
   filteredResults = () => {
-    return this.state.files
+    return this.state.displayedFiles
       .filter(v => {
         return JSON.stringify(v)
           .toLowerCase()
@@ -267,6 +281,26 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
     });
   };
 
+  // handleFilter = (category: string, active: boolean) => {
+  handleFilter = (category: string) => {
+    const testBankFiles = this.state.files;
+    let filtered: ISimpleTestBankFile[] = [];
+
+    if (testBankFiles) {
+      if (category === "ALL")
+        filtered = testBankFiles;
+      else {
+        filtered = testBankFiles.filter((testBankFile: ITestBankFile) => {
+          return testBankFile.fileCat === category;
+        });
+      }
+    }
+
+    this.setState({
+      displayedFiles: filtered
+    });
+  };
+
   render() {
     const FileRow = (file: ISimpleTestBankFile, index: number) => (
       <tr key={index}>
@@ -293,6 +327,7 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
               <th>Course</th>
               <th>Quarter</th>
               <th>File</th>
+              <th>Type</th>
               <th>Professor</th>
             </tr>
           </thead>
@@ -326,6 +361,14 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
               placeholder="Search..."
             />
           </div>
+          <ButtonGroup>
+            <Button color="secondary" size="sm" onClick={() => this.handleFilter("Midterm")}>Midterm</Button>
+            <Button color="secondary" size="sm" onClick={() => this.handleFilter("Final")}>Final</Button>
+            <Button color="secondary" size="sm" onClick={() => this.handleFilter("Notes")}>Notes</Button>
+            <Button color="secondary" size="sm" onClick={() => this.handleFilter("Textbook")}>Textbook</Button>
+            <Button color="secondary" size="sm" onClick={() => this.handleFilter("Others")}>Others</Button>
+            <Button color="primary" size="sm" onClick={() => this.reloadFiles()}>Reset</Button>
+          </ButtonGroup>
         </div>
         <UncontrolledCollapse toggler="#toggler">
           <Form className="mt-2">
@@ -389,6 +432,22 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
                     )}
                   />
                   <FormFeedback>Please enter a valid name.</FormFeedback>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="fileCat">Type</Label>
+                  <Input
+                    type="select"
+                    name="fileCat"
+                    id="fileCat"
+                    value={this.state.uploadForm.fileCat.value}
+                    onChange={this.handleChange("fileCat")}
+                  >
+                    <option>Midterm</option>
+                    <option>Final</option>
+                    <option>Notes</option>
+                    <option>Textbook</option>
+                    <option>Others</option>
+                  </Input>
                 </FormGroup>
               </div>
               <div className="col">

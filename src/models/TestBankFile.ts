@@ -11,6 +11,7 @@ interface ISimpleTestBankFile {
   quarter: string;
   year: string;
   professor: string;
+  fileCat: string;
 }
 
 interface ITestBankFile extends ISimpleTestBankFile {
@@ -21,6 +22,8 @@ interface ITestBankFile extends ISimpleTestBankFile {
 interface ITestBankFileModel extends ITestBankFile, mongoose.Document {}
 
 export const ValidQuarters = ["Summer", "Fall", "Winter", "Spring", "N/A"];
+
+export const ValidFileCat = ["Midterm", "Final", "Notes", "Textbook", "Others"];
 
 const TestBankFileSchema = new Schema({
   name: { type: String, required: true },
@@ -49,6 +52,10 @@ const TestBankFileSchema = new Schema({
       }
     }
   },
+  fileCat: {
+    type: String,
+    enum: ValidFileCat
+  },
   professor: { type: String, required: true },
   uploadedBy: { type: Schema.Types.ObjectId, ref: "User" },
   uploadedOn: Date
@@ -68,7 +75,8 @@ const testBankToSimpleTestBank = (v: ITestBankFileModel) =>
     gcpName: v.gcpName,
     quarter: v.quarter,
     year: v.year,
-    professor: v.professor
+    professor: v.professor,
+    fileCat: v.fileCat
   } as ISimpleTestBankFile);
 
 export {
