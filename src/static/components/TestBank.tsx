@@ -314,6 +314,7 @@ class TestBankPage extends React.Component<ITestBankProps, ITestBankState> {
             {file.name}
           </a>
         </td>
+        <td>{file.fileCat}</td>
         <td>{file.professor}</td>
       </tr>
     );
